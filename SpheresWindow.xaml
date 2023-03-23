@@ -1,0 +1,65 @@
+﻿<Window x:Class="WpfSpheres.SpheresWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfSpheres"
+        mc:Ignorable="d"
+        Title="WPF Spheres - Big Spheres eat the little ones!" Height="350" Width="525">
+    <Window.Resources>
+        <!-- Normally I'd put converters, resource dictionaries in here for bits but I'll keep it simple -->
+    </Window.Resources>
+
+    <!-- could go dockpanel here or play with grids-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" x:Name="LeftBarGrid" Background="LightGray" Width="100">
+            <StackPanel Margin="5">
+                <TextBlock>Add Spheres</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="30" Margin="5 0 0 0" Text="X"/>
+                    <TextBox Width="50" MaxLength="10" Text="{Binding NewXValue}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="30" Margin="5 0 0 0" Text="Y"/>
+                    <TextBox Width="50" MaxLength="10" Text="{Binding NewYValue}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="30" Margin="5 0 0 0" Text="Size"/>
+                    <TextBox Width="50" MaxLength="10" Text="{Binding NewSizeValue, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <Button Margin="5 2" Command="{Binding AddCommand}">Add Sphere</Button>
+                <Button Margin="5 2" Command="{Binding PlayCommand}">Play</Button>
+                <Button Margin="5 2" Command="{Binding StopCommand}">Stop</Button>
+            </StackPanel>
+        </Grid>
+        
+        <Grid x:Name="CentralGrid" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <local:SpheresCanvas Grid.Row="0" Background="#FFEFEFEF" x:Name="SphereCanvas" Cursor="Cross"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <TextBlock Text="Existing Spheres" HorizontalAlignment="Center"/>
+            
+                <ListView ItemsSource="{Binding Spheres}" Height="100">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Size" Width="50" DisplayMemberBinding="{Binding Size}"/>
+                            <GridViewColumn Header="X" Width="50" DisplayMemberBinding="{Binding X}"/>
+                            <GridViewColumn Header="Y" Width="50" DisplayMemberBinding="{Binding Y}"/>
+                            <GridViewColumn Header="dX" Width="50" DisplayMemberBinding="{Binding dX}"/>
+                            <GridViewColumn Header="dY" Width="50" DisplayMemberBinding="{Binding dY}"/>
+                            <GridViewColumn Header="Eaten" Width="50" DisplayMemberBinding="{Binding SpheresEaten}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
